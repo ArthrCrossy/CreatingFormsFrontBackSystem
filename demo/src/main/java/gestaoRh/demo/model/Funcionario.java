@@ -41,4 +41,9 @@ public class Funcionario {
 
     @Column()
     private BigDecimal salario;
+
+    @Enumerated(EnumType.STRING)
+    @Column()
+    private StatusFuncionario status = StatusFuncionario.NEUTRO;
+
 }
