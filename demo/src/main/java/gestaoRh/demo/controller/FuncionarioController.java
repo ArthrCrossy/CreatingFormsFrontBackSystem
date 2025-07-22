@@ -26,6 +26,7 @@ public class FuncionarioController {
     @GetMapping
     public ResponseEntity<List<Funcionario>> listarTodos() {
         List<Funcionario> funcionarios = funcionarioService.listarTodos();
+        System.out.println("oi");
         return ResponseEntity.ok(funcionarios);
     }
 
