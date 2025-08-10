@@ -1,5 +1,6 @@
 package gestaoRh.demo.controller;
 
+import gestaoRh.demo.dto.FuncionarioDTO;
 import gestaoRh.demo.model.Cliente;
 import gestaoRh.demo.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/clientes")

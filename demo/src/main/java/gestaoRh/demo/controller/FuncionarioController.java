@@ -1,20 +1,18 @@
 package gestaoRh.demo.controller;
 
+import gestaoRh.demo.dto.FuncionarioDTO;
 import gestaoRh.demo.model.Departamento;
 import gestaoRh.demo.model.Funcionario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import gestaoRh.demo.service.FuncionarioService;
-import org.springframework.web.multipart.MultipartFile;
+import gestaoRh.demo.mapper.FuncionarioMapper;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/funcionarios")
@@ -24,10 +22,12 @@ public class FuncionarioController {
     private FuncionarioService funcionarioService;
 
     @GetMapping
-    public ResponseEntity<List<Funcionario>> listarTodos() {
+    public ResponseEntity<List<FuncionarioDTO>> listarTodos() {
         List<Funcionario> funcionarios = funcionarioService.listarTodos();
-        System.out.println("oi");
-        return ResponseEntity.ok(funcionarios);
+        List<FuncionarioDTO> funcionariosDTO = funcionarios.stream()
+                .map(FuncionarioMapper::toListDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(funcionariosDTO);
     }
 
     @GetMapping("/{id}")
@@ -68,12 +68,10 @@ public class FuncionarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         Optional<Funcionario> funcionario = funcionarioService.buscarPorId(id);
-
         if (funcionario.isPresent()) {
             funcionarioService.deletar(id);
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.notFound().build();
     }
 
